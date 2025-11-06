@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Odontograma 'Mostro' (Dinámico)</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: #111827;
+        }
+
+        /* --- ESTILOS DE LOS SVG (B/N 'CALATO') --- */
+        .asset-svg path,
+        .asset-svg rect {
+            fill: #FFFFFF;
+            stroke: #000000;
+            stroke-width: 1.0;
+            cursor: pointer;
+            transition: fill 0.5s ease;
+        }
+        .asset-svg path:hover,
+        .asset-svg rect:hover {
+            fill: #44444d;
+        }
+
+        /* --- ESTILOS DEL ODONTOGRAMA (El 'Mapa') --- */
+        .odontograma-container {
+            max-width: 1600px;
+            background: white;
+            /*border-radius: 12px;*/
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .arco {
+            display: flex;
+            justify-content: center;
+            border-bottom: 2px dashed #9ca3af;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .arco:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        #arco-superior, #arco-inferior {
+            min-height: 250px; /* Más espacio para los dientes más grandes */
+        }
+
+        .diente {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /*margin: 0 4px; !* Más separación entre dientes *!*/
+            /*padding: 10px 6px; !* Más padding *!*/
+            /*border: 1px solid transparent;*/
+            /*border-radius: 8px;*/
+            transition: all 0.2s ease;
+            width: 100px; /* Ancho fijo más grande */
+        }
+        .diente:hover {
+            background-color: #f9fafb;
+            border-color: #e5e7eb;
+        }
+
+        .numero {
+            font-size: 1.2rem; /* Número un poco más grande */
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px; /* Más separación */
+        }
+        .numero-abajo {
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        .raiz-svg,
+        .corona-svg {
+            width: 100%; /* Ocupa todo el ancho del .diente */
+            height: auto;
+            max-height: 80px; /* Altura máxima para las SVGs (ajustada para que quepan) */
+            border: 1px solid #e5e7eb;
+            background: #fcfcfc;
+
+        }
+
+        /* ¡'Volteamos' las raíces de abajo! */
+        .raiz-abajo {
+            transform: scaleY(1);
+        }
+
+        /* ¡NUEVO! Para voltear las raíces de arriba */
+        .raiz-arriba-invertida {
+            transform: scaleY(-1);
+        }
+
+        /* CLASES DE ESTADO (Ejemplo) */
+        .estado-caries path, .estado-caries rect {
+            fill: #ef4444 !important; /* Rojo para caries */
+        }
+        .estado-relleno path, .estado-relleno rect {
+            fill: #22c55e !important; /* Verde para relleno */
+        }
+
+    </style>
+</head>
+<body class="p-8">
+
+<div class="odontograma-container">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2 text-center">Odontograma 'Mostro' (Dinámico)</h1>
+
+    <p id="status" class="text-gray-600 mb-8 text-center italic">
+        'Cargando 'fierros'... (Conectando a Supabase)
+    </p>
+
+    <div class="arco" id="arco-superior">
+    </div>
+
+    <div class="arco" id="arco-inferior">
+    </div>
+
+</div>
+
+<script src="./script.js"></script> </body>
+</html>

@@ -1,0 +1,17 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Puedes añadir clases base para tu odontograma aquí */
+.diente-parte-svg {
+  @apply fill-current text-gray-300 transition-colors duration-150 ease-in-out cursor-pointer;
+}
+
+.diente-parte-svg:hover {
+  @apply text-blue-400;
+}
+
+.caries {
+  @apply text-red-500 !important; /* !important para sobreescribir el hover */
+}

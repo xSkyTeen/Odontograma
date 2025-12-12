@@ -1,0 +1,173 @@
+/* =========================================
+   1. ESTILOS GLOBALES
+   ========================================= */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+    color: #111827;
+}
+
+h1, h2, h3 {
+    letter-spacing: -0.025em;
+}
+
+/* =========================================
+   2. ODONTOGRAMA CONTAINER
+   ========================================= */
+.odontograma-container {
+    max-width: 1600px;
+    width: 100%;
+    background: white;
+    padding: 1.5rem; /* Un poco menos de padding para dar espacio */
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin: 0 auto;
+    /* CERO SCROLLBAR */
+    overflow: hidden;
+}
+
+.arco {
+    display: flex;
+    justify-content: space-between; /* Distribuye el espacio */
+    align-items: center;
+    gap: 2px; /* Espacio mínimo entre dientes */
+    flex-wrap: nowrap; /* ¡PROHIBIDO BAJAR DE FILA! */
+    border-bottom: 2px dashed #e5e7eb;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.arco:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* =========================================
+   3. EL DIENTE (WRAPPER FLEXIBLE)
+   ========================================= */
+.diente {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* FLEXIBILIDAD TOTAL */
+    flex: 1 1 auto; /* Crece y se encoge */
+    min-width: 25px; /* Tamaño mínimo para no desaparecer en móviles */
+    max-width: 60px; /* Tamaño máximo en pantallas grandes */
+    transition: all 0.2s ease;
+    cursor: default;
+    margin: 0 1px;
+}
+
+.diente:hover {
+    transform: translateY(-2px);
+    z-index: 5;
+}
+
+.numero {
+    font-size: 0.7rem; /* Un poco más chico para que entre */
+    font-weight: 700;
+    color: #9ca3af;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.contenedor-svgs {
+    width: 100%;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+/* =========================================
+   4. SVGs Y PARTES (COLORES DEFINITIVOS)
+   ========================================= */
+
+.raiz-svg,
+.corona-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* BLANCO Y NEGRO PURO */
+.asset-svg path,
+.asset-svg rect {
+    fill: #FFFFFF !important;  /* Diente Blanco */
+    stroke: #000000 !important; /* Borde Negro Puro */
+    stroke-width: 1px;
+    stroke-linejoin: round;
+    cursor: pointer;
+    transition: fill 0.1s ease; /* Transición rápida */
+}
+
+/* HOVER GRIS */
+.asset-svg path:hover,
+.asset-svg rect:hover {
+    fill: #9ca3af !important; /* Gris intermedio (gray-400) */
+}
+
+/* --- TRANSFORMACIONES DE RAÍCES --- */
+.raiz-arriba-invertida {
+    transform: scaleY(-1);
+    transform-origin: center;
+}
+
+.raiz-abajo {
+    transform: scaleY(1);
+}
+
+/* =========================================
+   5. CONDICIONES (Prevalecen sobre el blanco)
+   ========================================= */
+
+/* Diente Seleccionado */
+.diente-seleccionado {
+    transform: scale(1.15) !important;
+    z-index: 10;
+    filter: drop-shadow(0 4px 6px rgba(37, 99, 235, 0.2));
+}
+
+/* CARIES (Rojo) */
+.condicion-caries {
+    fill: #ef4444 !important;
+    stroke: #991b1b !important;
+}
+
+/* OBTURACIÓN (Azul) */
+.condicion-obturacion {
+    fill: #3b82f6 !important;
+    stroke: #1e40af !important;
+}
+
+/* CORONA (Dorado) */
+.condicion-corona {
+    fill: #fbbf24 !important;
+    stroke: #b45309 !important;
+}
+
+/* EXTRACCIÓN */
+.condicion-extraccion {
+    position: relative;
+    background-color: #fee2e2 !important;
+}
+.condicion-extraccion::after {
+    content: "✕";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(1rem, 4vw, 2.5rem); /* Ajustable al tamaño */
+    color: #ef4444;
+    font-weight: bold;
+    pointer-events: none;
+    line-height: 0;
+}
+
+/* AUSENTE */
+.estado-ausente {
+    opacity: 0.4;
+    filter: grayscale(100%);
+    background-color: #e2e8f0;
+}

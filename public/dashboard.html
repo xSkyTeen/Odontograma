@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard - Clínica Dental</title>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fuente Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Iconos (Lucide) para darle vida -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- NUESTRO CSS COMPARTIDO -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-gray-50 text-slate-800">
+
+<!-- 1. TOP BAR (Barra de Navegación) -->
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <!-- Logo / Nombre -->
+            <div class="flex items-center">
+                <i data-lucide="activity" class="text-blue-600 w-8 h-8 mr-2"></i>
+                <span class="text-xl font-bold text-slate-800">Dental<span class="text-blue-600">App</span></span>
+            </div>
+
+            <!-- Opciones de Menú -->
+            <div class="flex items-center space-x-8">
+                <a href="dashboard.html" class="text-blue-600 font-semibold border-b-2 border-blue-600 h-16 flex items-center px-1">
+                    Home
+                </a>
+                <a href="pacientes.html" class="text-gray-500 hover:text-blue-600 hover:border-blue-300 border-b-2 border-transparent h-16 flex items-center px-1 transition-colors">
+                    Pacientes
+                </a>
+                <a href="citas.html" class="text-gray-500 hover:text-blue-600 hover:border-blue-300 border-b-2 border-transparent h-16 flex items-center px-1 transition-colors">
+                    Citas
+                </a>
+            </div>
+
+            <!-- Perfil (Visual) -->
+            <div class="flex items-center">
+                <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-sm border border-blue-200">
+                    DR
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+    <!-- BIENVENIDA -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-slate-900">¡Hola, Doctor! 👋</h1>
+        <p class="text-slate-500 mt-1">Aquí tienes el resumen de tu día.</p>
+    </div>
+
+    <!-- GRID DEL DASHBOARD -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- IZQUIERDA: AGENDA DE HOY (1 Columna) -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="calendar-clock" class="w-5 h-5 text-blue-500"></i>
+                        Agenda de Hoy
+                    </h2>
+                    <span class="text-xs font-semibold bg-blue-50 text-blue-700 px-2 py-1 rounded-full">4 Citas</span>
+                </div>
+
+                <!-- Lista de Citas (Hardcoded) -->
+                <div class="space-y-4">
+                    <!-- Cita 1 -->
+                    <div class="cita-card border-l-4 border-blue-500 bg-slate-50 p-3 rounded-r-lg">
+                        <p class="text-sm font-bold text-slate-800">09:00 AM - Limpieza</p>
+                        <p class="text-sm text-slate-600">Juan Pérez</p>
+                    </div>
+                    <!-- Cita 2 -->
+                    <div class="cita-card border-l-4 border-orange-400 bg-slate-50 p-3 rounded-r-lg">
+                        <p class="text-sm font-bold text-slate-800">11:30 AM - Curación</p>
+                        <p class="text-sm text-slate-600">María López</p>
+                    </div>
+                    <!-- Cita 3 -->
+                    <div class="cita-card border-l-4 border-green-500 bg-slate-50 p-3 rounded-r-lg">
+                        <p class="text-sm font-bold text-slate-800">03:00 PM - Control</p>
+                        <p class="text-sm text-slate-600">Carlos Ruiz</p>
+                    </div>
+                    <!-- Cita 4 -->
+                    <div class="cita-card border-l-4 border-purple-500 bg-slate-50 p-3 rounded-r-lg">
+                        <p class="text-sm font-bold text-slate-800">05:00 PM - Ortodoncia</p>
+                        <p class="text-sm text-slate-600">Ana Torres</p>
+                    </div>
+                </div>
+
+                <button class="w-full mt-4 text-center text-sm text-blue-600 font-medium hover:underline">
+                    Ver todas las citas
+                </button>
+            </div>
+        </div>
+
+        <!-- DERECHA: CALENDARIO MENSUAL (2 Columnas) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-5 h-5 text-slate-500"></i>
+                        Octubre 2025
+                    </h2>
+                    <div class="flex gap-2">
+                        <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                        <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    </div>
+                </div>
+
+                <!-- Grid Calendario -->
+                <div class="grid grid-cols-7 gap-2 mb-4 text-center">
+                    <!-- Cabecera Días -->
+                    <div class="text-xs font-bold text-gray-400 uppercase">Dom</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Lun</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Mar</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Mié</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Jue</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Vie</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase">Sáb</div>
+                </div>
+
+                <div class="grid grid-cols-7 gap-2 text-sm">
+                    <!-- Días vacíos mes anterior -->
+                    <div class="h-10"></div><div class="h-10"></div><div class="h-10"></div>
+
+                    <!-- Días del mes (Ejemplo visual) -->
+                    <!-- Blanco: Normal -->
+                    <div class="cal-day">1</div>
+                    <div class="cal-day">2</div>
+                    <!-- Verde: Pocas citas -->
+                    <div class="cal-day cal-verde">3</div>
+                    <div class="cal-day">4</div>
+
+                    <div class="cal-day">5</div>
+                    <div class="cal-day cal-naranja">6</div> <!-- Naranja: Regular -->
+                    <div class="cal-day">7</div>
+                    <div class="cal-day cal-verde">8</div>
+                    <div class="cal-day">9</div>
+                    <div class="cal-day cal-rojo">10</div> <!-- Rojo: Full -->
+                    <div class="cal-day">11</div>
+
+                    <div class="cal-day">12</div>
+                    <div class="cal-day">13</div>
+                    <div class="cal-day cal-verde">14</div>
+                    <div class="cal-day">15</div>
+                    <div class="cal-day">16</div>
+                    <div class="cal-day cal-naranja">17</div>
+                    <div class="cal-day">18</div>
+
+                    <div class="cal-day">19</div>
+                    <div class="cal-day border-2 border-blue-500 font-bold text-blue-600 bg-blue-50">20</div> <!-- HOY -->
+                    <div class="cal-day">21</div>
+                    <div class="cal-day cal-rojo">22</div>
+                    <div class="cal-day">23</div>
+                    <div class="cal-day">24</div>
+                    <div class="cal-day">25</div>
+
+                    <!-- ... rellenar hasta fin de mes ... -->
+                    <div class="cal-day">26</div>
+                    <div class="cal-day">27</div>
+                    <div class="cal-day">28</div>
+                    <div class="cal-day cal-verde">29</div>
+                    <div class="cal-day">30</div>
+                    <div class="cal-day">31</div>
+                </div>
+
+                <!-- Leyenda -->
+                <div class="mt-8 pt-4 border-t border-gray-100 flex flex-wrap gap-4 text-xs text-slate-500">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full border border-gray-200 bg-white"></span> Libre
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-100 border border-emerald-300"></span> Pocas citas
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-orange-100 border border-orange-300"></span> Regular
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-red-100 border border-red-300"></span> Full chamba
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- Script para los iconos -->
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

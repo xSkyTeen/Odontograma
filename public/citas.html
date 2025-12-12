@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Citas - Clínica Dental</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-gray-50 text-slate-800">
+
+<!-- 1. TOP BAR (Igualita pero con Citas activo) -->
+<nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div class="flex items-center">
+                <i data-lucide="activity" class="text-blue-600 w-8 h-8 mr-2"></i>
+                <span class="text-xl font-bold text-slate-800">Dental<span class="text-blue-600">App</span></span>
+            </div>
+
+            <div class="flex items-center space-x-8">
+                <!-- Home ahora está inactivo -->
+                <a href="dashboard.html" class="text-gray-500 hover:text-blue-600 hover:border-blue-300 border-b-2 border-transparent h-16 flex items-center px-1 transition-colors">
+                    Home
+                </a>
+                <a href="pacientes.html" class="text-gray-500 hover:text-blue-600 hover:border-blue-300 border-b-2 border-transparent h-16 flex items-center px-1 transition-colors">
+                    Pacientes
+                </a>
+                <!-- Citas ahora está ACTIVO -->
+                <a href="citas.html" class="text-blue-600 font-semibold border-b-2 border-blue-600 h-16 flex items-center px-1">
+                    Citas
+                </a>
+            </div>
+
+            <div class="flex items-center">
+                <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-sm border border-blue-200">DR</div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-slate-900">Agendar Cita</h1>
+        <p class="text-slate-500 mt-1">Programa una nueva atención.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- IZQUIERDA: FORMULARIO (1 Columna) -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="user-plus" class="w-5 h-5 text-blue-500"></i>
+                    Datos de la Cita
+                </h2>
+
+                <form action="#" class="space-y-4">
+                    <!-- Paciente -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Paciente</label>
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-2.5 w-5 h-5 text-gray-400"></i>
+                            <input type="text" placeholder="Buscar por DNI o Nombre..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                        </div>
+                        <p class="text-xs text-blue-600 mt-1 cursor-pointer hover:underline text-right">+ Crear nuevo paciente</p>
+                    </div>
+
+                    <!-- Tratamiento -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Motivo / Tratamiento</label>
+                        <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            <option value="" disabled selected>Selecciona...</option>
+                            <option value="consulta">Consulta General</option>
+                            <option value="limpieza">Limpieza / Profilaxis</option>
+                            <option value="curacion">Curación (Resina)</option>
+                            <option value="extraccion">Extracción</option>
+                            <option value="ortodoncia">Control Ortodoncia</option>
+                        </select>
+                    </div>
+
+                    <!-- Hora y Duración -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Hora</label>
+                            <input type="time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Duración</label>
+                            <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                                <option>30 min</option>
+                                <option selected>60 min</option>
+                                <option>90 min</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Notas -->
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Notas (Opcional)</label>
+                        <textarea rows="3" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none" placeholder="Alergias, detalles extra..."></textarea>
+                    </div>
+
+                    <!-- Botón Acción -->
+                    <div class="pt-4">
+                        <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg shadow-lg shadow-blue-200 transition-all active:scale-95 flex items-center justify-center gap-2">
+                            <i data-lucide="check-circle" class="w-5 h-5"></i>
+                            Confirmar Cita
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- DERECHA: CALENDARIO DE SELECCIÓN (2 Columnas) -->
+        <div class="lg:col-span-2">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 h-full">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-5 h-5 text-slate-500"></i>
+                        Seleccionar Fecha
+                    </h2>
+                    <div class="flex items-center gap-4">
+                        <span class="text-sm font-semibold text-slate-600">Octubre 2025</span>
+                        <div class="flex gap-1">
+                            <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <button class="p-1 hover:bg-gray-100 rounded"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendario Grid -->
+                <div class="grid grid-cols-7 gap-2 text-center mb-2">
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Dom</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Lun</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Mar</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Mié</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Jue</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Vie</div>
+                    <div class="text-xs font-bold text-gray-400 uppercase py-2">Sáb</div>
+                </div>
+
+                <div class="grid grid-cols-7 gap-2 text-sm">
+                    <!-- Relleno mes anterior -->
+                    <div class="h-10"></div><div class="h-10"></div><div class="h-10"></div>
+
+                    <!-- Días -->
+                    <div class="cal-day text-gray-400 cursor-not-allowed">1</div> <!-- Pasado -->
+                    <div class="cal-day text-gray-400 cursor-not-allowed">2</div>
+                    <div class="cal-day text-gray-400 cursor-not-allowed">3</div>
+                    <div class="cal-day text-gray-400 cursor-not-allowed">4</div>
+
+                    <!-- Días disponibles -->
+                    <div class="cal-day">5</div>
+                    <div class="cal-day cal-rojo opacity-50 cursor-not-allowed" title="Lleno">6</div> <!-- Lleno -->
+                    <div class="cal-day">7</div>
+                    <div class="cal-day cal-verde">8</div>
+                    <div class="cal-day">9</div>
+                    <div class="cal-day">10</div>
+                    <div class="cal-day">11</div>
+
+                    <div class="cal-day">12</div>
+                    <div class="cal-day">13</div>
+                    <div class="cal-day">14</div>
+                    <div class="cal-day">15</div>
+                    <div class="cal-day">16</div>
+                    <div class="cal-day">17</div>
+                    <div class="cal-day">18</div>
+
+                    <div class="cal-day">19</div>
+                    <!-- DÍA SELECCIONADO (Simulado) -->
+                    <div class="cal-day cal-selected">20</div>
+
+                    <div class="cal-day">21</div>
+                    <div class="cal-day">22</div>
+                    <div class="cal-day">23</div>
+                    <div class="cal-day">24</div>
+                    <div class="cal-day">25</div>
+                    <div class="cal-day">26</div>
+                    <div class="cal-day">27</div>
+                    <div class="cal-day">28</div>
+                    <div class="cal-day">29</div>
+                    <div class="cal-day">30</div>
+                    <div class="cal-day">31</div>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <p class="text-sm text-slate-600">Fecha seleccionada: <span class="font-bold text-blue-600">Lunes, 20 de Octubre</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>

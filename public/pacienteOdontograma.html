@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Historia Clínica - Odontograma</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="styles.css" />
+
+    <style>
+        .layout-h { min-height: calc(100vh - 4rem); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+
+        /* Estilos para el Hover de partes del diente */
+        .parte-diente { transition: fill 0.2s ease, filter 0.2s ease; }
+        .parte-diente:hover { filter: brightness(0.9); cursor: crosshair; }
+
+        /* Animaciones del Sidebar */
+        .slide-in { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+    </style>
+</head>
+<body class="bg-gray-100 text-slate-800 overflow-hidden font-inter">
+
+<!-- TOP BAR -->
+<nav class="bg-white border-b border-gray-200 h-16 flex items-center px-6 justify-between shrink-0 z-20 relative">
+    <div class="flex items-center gap-6">
+        <a href="#" class="text-gray-400 hover:text-gray-600 transition-colors">
+            <i data-lucide="arrow-left" class="w-6 h-6"></i>
+        </a>
+        <div class="flex items-center">
+            <i data-lucide="activity" class="text-blue-600 w-6 h-6 mr-2"></i>
+            <span class="text-lg font-bold text-slate-800">Dental<span class="text-blue-600">Pro</span></span>
+        </div>
+        <div class="h-6 w-px bg-gray-200 mx-2"></div>
+        <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Odontograma Digital MINSA</h2>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-md transition-colors flex items-center gap-2">
+            <i data-lucide="save" class="w-4 h-4"></i> Guardar Historia
+        </button>
+    </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="flex layout-h">
+
+    <!-- SIDEBAR DATOS (IZQUIERDA) -->
+    <aside class="w-80 bg-white border-r border-gray-200 flex flex-col shrink-0 z-10 shadow-sm">
+        <div class="p-6 border-b border-gray-100 text-center bg-slate-50">
+            <div class="w-20 h-20 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-2xl font-bold mx-auto mb-3 border-4 border-white shadow-sm">
+                JP
+            </div>
+            <h2 id="lbl-paciente" class="text-xl font-bold text-slate-800">Cargando...</h2>
+            <p id="lbl-edad" class="text-sm text-slate-500">-- Años</p>
+            <div class="mt-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                Activo
+            </div>
+        </div>
+
+        <div class="p-6 space-y-6 overflow-y-auto flex-1">
+            <div>
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Datos Filiación</h4>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <i data-lucide="credit-card" class="w-4 h-4 text-gray-400 mt-0.5"></i>
+                        <div>
+                            <p class="text-xs text-gray-500">DNI</p>
+                            <p id="lbl-dni" class="text-sm font-medium text-slate-700">...</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i data-lucide="file-text" class="w-4 h-4 text-gray-400 mt-0.5"></i>
+                        <div>
+                            <p class="text-xs text-gray-500">Historia Clínica</p>
+                            <p id="lbl-hc" class="text-sm font-medium text-slate-700">...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CANVAS (CENTRO) -->
+    <main class="flex-1 bg-gray-50/50 relative overflow-hidden flex flex-col">
+
+        <!-- Toolbar -->
+        <div class="absolute top-4 left-1/2 -translate-x-1/2 bg-white rounded-full shadow-lg border border-gray-200 p-1.5 flex gap-1 z-20">
+            <button class="tool-btn p-2 rounded-full bg-blue-600 text-white transition-colors tooltip" data-tool="cursor" title="Modo Selección">
+                <i data-lucide="mouse-pointer-2" class="w-5 h-5"></i>
+            </button>
+            <div class="w-px h-6 bg-gray-200 my-auto mx-1"></div>
+            <span class="text-xs text-gray-400 px-2 font-medium self-center">Haz clic en una pieza o parte para editar</span>
+        </div>
+
+        <!-- Scroll Odontograma -->
+        <div class="flex-1 overflow-auto p-4 flex items-start justify-center pt-20">
+            <div class="odontograma-container scale-90 origin-top bg-white p-6 rounded-2xl shadow-sm border border-gray-200 min-w-[800px]">
+
+                <p id="status" class="text-gray-400 text-sm mb-6 text-center italic animate-pulse">
+                    Conectando con Supabase...
+                </p>
+
+                <!-- 1. DENTICIÓN PERMANENTE (ADULTO) -->
+                <div class="mb-8 border-b border-gray-100 pb-8">
+                    <h3 class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Dentición Permanente</h3>
+                    <div class="flex justify-center gap-1 mb-4" id="arco-superior"></div>
+                    <div class="flex justify-center gap-1" id="arco-inferior"></div>
+                </div>
+
+                <!-- 2. DENTICIÓN DECIDUA (NIÑO) -->
+                <div>
+                    <h3 class="text-center text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Dentición Decidua (Niños)</h3>
+                    <div class="flex justify-center gap-1 mb-4" id="arco-superior-nino"></div>
+                    <div class="flex justify-center gap-1" id="arco-inferior-nino"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Leyenda -->
+        <div class="bg-white border-t border-gray-200 p-2 flex justify-center gap-6 text-[10px] text-gray-500 uppercase tracking-wider font-bold">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-red-500 rounded-full"></span> Patología</div>
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-blue-500 rounded-full"></span> Buen Estado</div>
+            <div class="flex items-center gap-2"><span class="text-blue-500 font-bold text-sm">X</span> Extracción</div>
+        </div>
+    </main>
+
+    <!-- SIDEBAR DERECHO (CRUD TRATAMIENTOS) -->
+    <aside id="sidebar-derecho" class="w-96 bg-white border-l border-gray-200 flex flex-col shrink-0 z-30 shadow-2xl transform transition-transform duration-300 translate-x-full absolute right-0 top-0 h-full">
+
+        <!-- Estado Vacío -->
+        <div id="empty-state" class="flex-1 flex flex-col items-center justify-center p-8 text-center text-gray-400 h-full">
+            <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/2905/2905339.png" class="w-10 h-10 opacity-30 grayscale" alt="Diente">
+            </div>
+            <p class="text-sm">Selecciona una pieza o cara dental<br>para gestionar sus tratamientos.</p>
+        </div>
+
+        <!-- Detalle Activo -->
+        <div id="diente-detail" class="hidden flex-col h-full bg-slate-50">
+            <!-- Header -->
+            <div class="px-6 py-4 bg-white border-b border-gray-200 flex justify-between items-center shadow-sm z-10">
+                <div>
+                    <span class="text-[10px] font-bold text-blue-600 uppercase tracking-widest">Pieza Dental</span>
+                    <h2 class="text-2xl font-bold text-slate-800">#<span id="detalle-numero">--</span></h2>
+                </div>
+                <button onclick="cerrarPanelDerecho()" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                    <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+                </button>
+            </div>
+
+            <!-- Scroll Content -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+                <!-- Zoom y Parte Seleccionada -->
+                <div class="flex gap-4 items-start">
+                    <div id="zoom-container" class="w-24 h-32 bg-white rounded-lg border border-gray-200 shadow-sm p-1 flex items-center justify-center">
+                        <!-- SVG Clonado aquí -->
+                    </div>
+                    <div class="flex-1">
+                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-1">Zona Seleccionada</label>
+                        <div id="zona-seleccionada-badge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 border border-gray-200">
+                            Todo el Diente
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-2 leading-tight">
+                            Pasa el mouse sobre el diente para seleccionar una cara específica.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Formulario Nuevo Tratamiento -->
+                <div class="bg-white p-4 rounded-xl border border-blue-100 shadow-sm ring-1 ring-blue-50/50">
+                    <h4 class="text-xs font-bold text-blue-900 uppercase tracking-widest mb-3 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-3 h-3"></i> Nuevo Registro
+                    </h4>
+
+                    <div class="space-y-3">
+                        <!-- Select Condición -->
+                        <div>
+                            <label class="block text-[10px] font-medium text-gray-500 mb-1">Condición / Simbología</label>
+                            <select id="select-simbologia" class="w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 bg-gray-50">
+                                <option value="">Cargando catálogo...</option>
+                            </select>
+                        </div>
+
+                        <!-- Select Cara (Auto-rellenado) -->
+                        <div>
+                            <label class="block text-[10px] font-medium text-gray-500 mb-1">Aplicar en</label>
+                            <select id="select-cara" class="w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 bg-gray-50">
+                                <option value="">Todo el Diente</option>
+                                <!-- Se llenará dinámicamente -->
+                            </select>
+                        </div>
+
+                        <!-- Observaciones -->
+                        <div>
+                            <label class="block text-[10px] font-medium text-gray-500 mb-1">Observaciones</label>
+                            <input type="text" id="input-observacion" class="w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500" placeholder="Detalle opcional...">
+                        </div>
+
+                        <button onclick="agregarTratamiento()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition-colors flex justify-center items-center gap-2 shadow-sm">
+                            <i data-lucide="save" class="w-4 h-4"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lista de Tratamientos Existentes -->
+                <div>
+                    <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3 flex justify-between items-center">
+                        Historial Clínico
+                        <span id="contador-tratamientos" class="bg-gray-200 text-gray-600 text-[10px] px-1.5 rounded-full">0</span>
+                    </h4>
+                    <div id="lista-tratamientos" class="space-y-2">
+                        <!-- Items inyectados por JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </aside>
+
+</div>
+
+<script src="pacienteOdontograma.js"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
